@@ -1,103 +1,35 @@
 % !TeX root = ../thuthesis-example.tex
 
-\chapter{数学符号和公式}
+\chapter{引言}
 
-\section{数学符号}
-
-中文论文的数学符号默认遵循 GB/T 3102.11—1993《物理科学和技术中使用的数学符号》
-\footnote{原 GB 3102.11—1993，自 2017 年 3 月 23 日起，该标准转为推荐性标准。}。
-该标准参照采纳 ISO 31-11:1992 \footnote{目前已更新为 ISO 80000-2:2019。}，
-但是与 \TeX{} 默认的美国数学学会（AMS）的符号习惯有所区别。
-具体地来说主要有以下差异：
-\begin{enumerate}
-  \item 大写希腊字母默认为斜体，如
-    \begin{equation*}
-      \Gamma \Delta \Theta \Lambda \Xi \Pi \Sigma \Upsilon \Phi \Psi \Omega.
-    \end{equation*}
-    注意有限增量符号 $\increment$ 固定使用正体，模板提供了 \cs{increment} 命令。
-  \item 小于等于号和大于等于号使用倾斜的字形 $\le$、$\ge$。
-  \item 积分号使用正体，比如 $\int$、$\oint$。
-  \item 行间公式积分号的上下限位于积分号的上下两端，比如
-    \begin{equation*}
-      \int_a^b f(x) \dif x.
-    \end{equation*}
-    行内公式为了版面的美观，统一居右侧，如 $\int_a^b f(x) \dif x$ 。
-  \item
-    偏微分符号 $\partial$ 使用正体。
-  \item
-    省略号 \cs{dots} 按照中文的习惯固定居中，比如
-    \begin{equation*}
-      1, 2, \dots, n \quad 1 + 2 + \dots + n.
-    \end{equation*}
-  \item
-    实部 $\Re$ 和虚部 $\Im$ 的字体使用罗马体。
-\end{enumerate}
-
-以上数学符号样式的差异可以在模板中统一设置。
-另外国标还有一些与 AMS 不同的符号使用习惯，需要用户在写作时进行处理：
-\begin{enumerate}
-  \item 数学常数和特殊函数名用正体，如
-    \begin{equation*}
-      \uppi = 3.14\dots; \quad
-      \symup{i}^2 = -1; \quad
-      \symup{e} = \lim_{n \to \infty} \left( 1 + \frac{1}{n} \right)^n.
-    \end{equation*}
-  \item 微分号使用正体，比如 $\dif y / \dif x$。
-  \item 向量、矩阵和张量用粗斜体（\cs{symbf}），如 $\symbf{x}$、$\symbf{\Sigma}$、$\symbfsf{T}$。
-  \item 自然对数用 $\ln x$ 不用 $\log x$。
-\end{enumerate}
+卷积神经网络现在被广泛应用在生活的各个方面，比如可以刷脸的门禁系统，目标的定位检测系统以及图像搜索系统等等。这些系统的模型都是由用户产生的个人数据训练的，其中有一些数据涉及到个人的隐私。那么这些模型的信息在泄露以后是否能被有心人利用，从而还原出个人的隐私信息呢？本章将从卷积神经网络应用的普及，机器学习模型的攻击，GDPR等隐私法规的出台等方面介绍本文的选题背景。最后再介绍本文选题的意义。
 
 
-英文论文的数学符号使用 \TeX{} 默认的样式。
-如果有必要，也可以通过设置 \verb|math-style| 选择数学符号样式。
-
-关于量和单位推荐使用
-\href{http://mirrors.ctan.org/macros/latex/contrib/siunitx/siunitx.pdf}{\pkg{siunitx}}
-宏包，
-可以方便地处理希腊字母以及数字与单位之间的空白，
-比如：
-\SI{6.4e6}{m}，
-\SI{9}{\micro\meter}，
-\si{kg.m.s^{-1}}，
-\SIrange{10}{20}{\degreeCelsius}。
+\section{研究背景及意义}
 
 
+\subsection{当今卷积神经网络的主要应用}
+应用一：图像的分类和检索
+图像的分类就是输入图片以后，输出这张图片在若干指定类别中最有可能是的类别，常使用监督式的机器学习方法。在使用卷积神经网络以前，常用的监督式机器学习有k近邻聚类算法（K-nearest-neighbours，KNN），主成分分析法（Principle Component Analysis, PCA）以及支持向量机分类方法(Support Vector Machine, SVM)【1】。这些传统机器学习方法的一个共同点是需要提前提取特征。而卷积神经网络则不用，卷积操作会自动捕捉图像中的模式。特征的自动提取使得机器学习收到了广泛的欢迎，也使得卷积神经网络被科研工作者和企业工程师广泛接受。卷积神经网络因此也常常用作特征提取器。利用卷积神经网络进行图像分类典型的应用场景是图像搜索。【2】这个发明就提出了一种利用卷积神经网络进行快速图片检索的方法，并且把卷积神经网络当作特征提取器来使用，再结合其他基于特征距离的分类方法实现快速的图片检索。
+应用二：目标的定位、检测和图像的分割
+目标定位的任务是标出图片中物体的位置。目标定位和图像分类都有检测物体类别的属性，它们的不同点是目标定位除了要判别图片中有什么物体之外，还要给出物体在图片中的位置，一般用方框来标记物体位置。
+目标检测的任务是识别图片中不定数量物体以及他们各自所在的位置。目标检测与目标定位的不同之处在与目标定位中物体的数量是固定的，而目标检测中物体的数量是不固定的。就是说目标检测需要把图片中所有目标物体全都识别出来并且准确地给出它们的位置。
+图像分割的任务是在像素级别圈出图片中的目标物体。图像分割与目标检测不同的地方是图像分割是在像素级别将物体圈出，而目标检测则不需要这么精细，只需要用方框圈出大致的范围即可。如图一所示，图一用图形展示了图形分类、目标定位、目标检测和图像分割的不同之处。
+目标定位和目标检测的典型应用场景是自动驾驶、安全防护和医疗领域。图像分割的典型应用场景有视频的后期制作，图像处理软件如Photoshop、美图秀秀等。
+应用三：人脸识别
+人脸识别顾名思义就是在图像或视频中识别出人脸的技术。和图像分类技术类似，早期人脸识别技术采用的是传统机器学习的方法进行的。其过程一般是通过摄像头获取图像或视频，然后通过计算机对图片或视频进行预处理，通过选取关键点来提取图片特征，再将提取出来的图片特征与训练好的模型进行比对，从而决定图片的分类，最终将分类结果输出。这种方式仍然避免不了人工选取关键点来提取图片特征的环节。以卷积神经网络技术为代表的深度学习技术结束了手工选择关键点的过程，直接可以通过卷积神经网络就能自动提取相关特征，从而达到理想的分类效果。2014年以DeepFace为代表的利用深度神经网络进行人脸识别的工作相继出现，使得人脸识别准确率不断提高。2015年FaceNet在LFW数据集上达到99.67 $\%$的准确率，宣布人工智能首度超过人类的人脸识别能力。随着人脸识别技术的不断成熟，其应用场景也不断增多，如安全防护，金融认证，考试防作弊等，深入到我们日常生活的诸多方面。
+应用四：人体骨骼关键点的检测
+典型的应用场景是安全防护，电影的制作过程， 图像视频的生成以及游戏作品的制作过程中
 
-\section{数学公式}
+\subsection{机器学习模型的攻击}
 
-数学公式可以使用 \env{equation} 和 \env{equation*} 环境。
-注意数学公式的引用应前后带括号，建议使用 \cs{eqref} 命令，比如式 \eqref{eq:example}。
-\begin{equation}
-  \frac{1}{2 \uppi \symup{i}} \int_\gamma f = \sum_{k=1}^m n(\gamma; a_k) \mathscr{R}(f; a_k)
-  \label{eq:example}
-\end{equation}
-注意公式编号的引用应含有圆括号，可以使用 \cs{eqref} 命令。
+\subsection{GDPR等隐私法规的出台}
 
-多行公式尽可能在“=”处对齐，推荐使用 \env{align} 环境。
-\begin{align}
-  a & = b + c + d + e \\
-    & = f + g
-\end{align}
+\subsection{选题的意义}
 
+\section{研究现状和主要挑战}
 
+\section{研究方法}
 
-\section{数学定理}
+\section{论文结构安排}
 
-定理环境的格式可以使用 \pkg{amsthm} 或者 \pkg{ntheorem} 宏包配置。
-用户在导言区载入这两者之一后，模板会自动配置 \env{thoerem}、\env{proof} 等环境。
-
-\begin{theorem}[Lindeberg--Lévy 中心极限定理]
-  设随机变量 $X_1, X_2, \dots, X_n$ 独立同分布， 且具有期望 $\mu$ 和有限的方差 $\sigma^2 \ne 0$，
-  记 $\bar{X}_n = \frac{1}{n} \sum_{i+1}^n X_i$，则
-  \begin{equation}
-    \lim_{n \to \infty} P \left(\frac{\sqrt{n} \left( \bar{X}_n - \mu \right)}{\sigma} \le z \right) = \Phi(z),
-  \end{equation}
-  其中 $\Phi(z)$ 是标准正态分布的分布函数。
-\end{theorem}
-\begin{proof}
-  Trivial.
-\end{proof}
-
-同时模板还提供了 \env{assumption}、\env{definition}、\env{proposition}、
-\env{lemma}、\env{theorem}、\env{axiom}、\env{corollary}、\env{exercise}、
-\env{example}、\env{remar}、\env{problem}、\env{conjecture} 这些相关的环境。
