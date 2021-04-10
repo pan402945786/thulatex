@@ -57,6 +57,106 @@
 \\6. 5中得到的网络参数进行指标测试，并记录。
 \\实验结束：计算并记录各个模型综合指标的计算结果
 \section{实验结果}
-
+\subsection{确定冻结层数实验}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_1.png}
+    \caption{重置冻结参数遗忘方法测试准确率与重置参数层次的关系}
+    \label{fig:chapter4_1}
+\end{figure}
+如图\ref{fig:chapter4_1}所示，图中展示了本文所讲述的重置冻结参数遗忘方法训练的网络用遗忘集和保留集训练之后得到测试准确率。
+蓝色的折线代表利用保留测试集测试的准确率，红色的折线代表使用遗忘测试集测试的准确率的情况。
+从红线可以看出，遗忘测试集的准确率全是0。这样的结果与完全重新训练得到的模型在遗忘测试集上的准确率完全相同。这说明使用本文提出的冻结重置参数方法，无论重置多少层参数，在遗忘集上均能达到理想的效果。
+从蓝线与上面的点线可以看出，本方法得到的模型在保留集测试准确率上在大部分情况下均好于完全重新训练得到的模型在保留集上的准确率。
+从蓝色圆点曲线中也发现随着重置参数的层数的增加，其保留集测试准确率有下降趋势，逐渐接近完全重新训练模型在保留集上的测试结果。
+仅通过这一个方面还不足以让我们选出要重置参数的层次。
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{chapter4_time_1.png}
+    \caption{冻结重置参数方法不同层数收敛时间对比}
+    \label{fig:chapter4_time_1}
+\end{figure}
+\\    如图\ref{fig:chapter4_time_1}所示，图中展示了本文所讲述的重置冻结参数遗忘方法在重置不同层次参数上使用保留集训练后收敛时间的对比。
+图中展示了三套柱状对比图，蓝色柱图、黄色柱图和绿色柱图分别代表使用保留训练集训练网络时，该训练批次（Epoch）的平均损失函数loss的值首次降到0.1，0.05和0.03以下时的训练批次（Epoch）数。
+批次数越小，说明训练的收敛时间越快。上面有三条不同线型的横线，分别代表为了遗忘一定的类别完全重新训练网络，该训练过程的平均损失函数值首次降到0.1，0.05和0.03以下时的训练批次（Epoch）数。
+这三条横线的作用时与本文提到的方法进行收敛时间上的对比。
+从图中的柱状图中可以看出，随着重置参数的层数逐渐增多，其收敛的Epoch逐渐增大，逐渐接近完全重新训练时收敛的Epoch。
+其实这也不难理解，随着重置参数的层数增多，网络中需要更新的参数也逐渐增多，其状态也越来越接近完全重新训练的情况，所以收敛时间也逐步接近完全重新训练。
+我们希望选择的层次是选择该层次后，训练后的准确率越高越好，训练收敛时间越快越好。
+所以综合图\ref{fig:chapter4_1}和\ref{fig:chapter4_distance_1}，可以备选的层次是前7层均在可以接受的范围内，重置参数层数越小，准确率越高，收敛时间也越快。
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_distance_1.png}
+    \caption{重置冻结参数遗忘后与完全重新训练网络的激活距离}
+    \label{fig:chapter4_distance_1}
+\end{figure}
+\\    如图\ref{fig:chapter4_time_1}所示，图中展示了本文所讲述的重置冻结参数遗忘方法训练的网络与完全重新训练所训练的网络之间对于测试集输出之间的距离差。
+这个距离差在上一节有具体讲到，是两个网络输出向量差的绝对值的第二范数值。我们用这个范数值在测试数据集上的期望来作为两个网络的激活距离。
+蓝色折线代表两个网络在遗忘集上的激活距离，橙色折线代表两个网络在保留集上的激活距离。从图中可以看出，两个网络在遗忘集上的激活距离要高于在保留集上的激活距离。
+我们对于两个网络激活距离的期望是越小越好，在前7层可以看到保留集的激活距离普遍稳定地保持较低数值，而对于遗忘集的激活距离前2层的数值相对较大，3、4、5层数值也略大，从第6层开始，数值变得平稳。
+因此，综合图\ref{fig:chapter4_1}和图\ref{fig:chapter4_time_1}和图\ref{fig:chapter4_distance_1}的分析结果，我们选择第6层作为重置冻结参数遗忘方法对于ResNet18网络重置参数的层数。
+\subsection{冻结必要性验证实验}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_2.png}
+    \caption{不冻结参数与冻结参数准确率的对比}
+    \label{fig:chapter4_2}
+\end{figure}
+如图\ref{fig:chapter4_2}所示，图中展示了重置一定参数后冻结参数与不冻结参数训练对遗忘类别和保留类别准确率的影响。
+橘黄色圆点折线代表冻结参数后使用保留训练集训练网络得到的网络在保留测试集上得到的准确率，蓝色圆点折线代表该网络的在遗忘测试集上得到的测试准确率。
+红色方格折线代表不冻结参数的情况下使用保留训练集训练得到的网络在保留测试集上得到的测试准确率，绿色方格折线代表该网络在遗忘测试集上得到的测试准确率。
+除此之外，图中还画了两条横线，圆点线代表完全重新训练的网络模型在保留测试集上得到的测试准确率，条状线段线代表完全重新训练的网络模型在遗忘测试集上得到的测试准确率。
+这两条横线的主要作用是作为冻结参数和不冻结参数准确率的参照。通过橘黄色圆点折线和红色方格折线可以看出冻结参数与不冻结参数在保留集测试准确率上总体相差不大，但是冻结参数的方法要略好于不冻结参数方法。
+在遗忘集的测试准确率上，两种方法效果相同，均为0。
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{chapter4_time_2.png}
+    \caption{冻结参数与不冻结参数收敛时间对比}
+    \label{fig:chapter4_time_2}
+\end{figure}
+\\如图\ref{fig:chapter4_time_2}所示，图中展示了冻结参数与不冻结参数重置参数后使用保留训练集训练网络的收敛时间。这个收敛时间同实验一的收敛时间定义相同。
+蓝色、黄色和绿色柱图分别代表冻结参数情况下网络的平均损失函数值收敛到0.1、0.05和0.03时所花费的训练周期，即Epoch数。
+粉色、紫色和棕色柱图分别代表非冻结参数情况下网络的平均损失函数收敛到0.1、0.05和0.03时所花费的训练周期数。
+上面画出的三条横线，圆点线、条状线和点段线分别代表完全重新训练网络过程中，网络的平均损失函数值收敛至0.1、0.05和0.03时所花费的训练周期数。其主要作用是用来提供参照。
+通过观察冻结参数和不冻结参数的柱状图可以发现，冻结参数后训练的收敛时间从整体上要少于不冻结参数训练网络收敛时间。这个现象也是符合分析的逻辑，冻结参数后，一部分参数不需要计算更新，而没有冻结参数的网络则需要计算所有参数的更新，从计算量上分析，不冻结参数训练网络所需要的工作量是比冻结参数要大的。
+通过图\ref{fig:chapter4_2}和图\ref{fig:chapter4_time_2}的分析结果可以初步得出结论，冻结参数训练网络的方法要好于不冻结参数训练网络的方法。
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_distance_2.png}
+    \caption{冻结参数与没冻结参数激活距离对比}
+    \label{fig:chapter4_distance_2}
+\end{figure}
+\subsection{反向冻结验证实验}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_3.png}
+    \caption{反向冻结重置参数与正向冻结重置参数测试准确率对比}
+    \label{fig:chapter4_3}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_distance_3.png}
+    \caption{正向冻结参数与反向冻结参数激活距离对比}
+    \label{fig:chapter4_distance_3}
+\end{figure}
+\subsection{遗忘可持续性验证实验}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_4.png}
+    \caption{遗忘可持续性实验测试准确率数据}
+    \label{fig:chapter4_4}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{chapter4_time_3.png}
+    \caption{遗忘可持续性实验收敛时间对比}
+    \label{fig:chapter4_time_3}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{chapter4_distance_4.png}
+    \caption{遗忘可持续性实验激活距离对比}
+    \label{fig:chapter4_distance_4}
+\end{figure}
 \section{本章小结}
 
