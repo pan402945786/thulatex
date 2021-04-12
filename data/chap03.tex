@@ -14,14 +14,14 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_3.png}
-    \caption{全连接网络结构示意图}
+    \caption{全连接网络结构示意图\cite{luyujie_202}}
     \label{fig:chapter3_3}
 \end{figure}
 如图\ref{fig:chapter3_2}所示，这就是一个卷积神经网络的例子。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_2.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{卷积神经网络结构示意图\cite{luyujie_202}}
     \label{fig:chapter3_2}
 \end{figure}
 如图\ref{fig:chapter3_2}所示，卷积神经网络中增加了卷积层和池化层。卷积神经网络的单个层连接的顺序是卷积层，激活函数层和池化层，其中池化层有时可以省略。这样的组合方式可以被理解为前面的全连接层和激活函数层组合连接被替换成了卷积层，激活函数层和池化层的连接。另外，在如图所示的卷积神经网络中，靠近后面的输出层中使用了全连接层和激活函数层ReLU组合。然后，最终的输出层中则使用了全连接层和Softmax的组合。这样的搭配一般都是卷积神经网络中较为常见的搭配结构。
@@ -38,28 +38,28 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_4.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{简单的卷积运算\cite{luyujie_204}}
     \label{fig:chapter3_4}
 \end{figure}
 卷积运算的具体过程是什么样的呢？下面结合图片\ref{fig:chapter3_5}来具体说明。如图\ref{fig:chapter3_5}中的第一行所示，第一行灰色区域代表第一步卷积操作所发生的区域，这个区域内的数字和卷积核的形状是相同的，所以区域内的数字可以与卷积核中对应位置的数字相乘，然后再把这些相乘的结果相加就得到了第一个结果，运算后将结果保存到相应的位置。如图\ref{fig:chapter3_5}第二、三、四行所示将上面讲的过程在每个位置计算一遍，于是就完成了一次卷积运算。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_5.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{卷积运算过程示意图\cite{luyujie_205}}
     \label{fig:chapter3_5}
 \end{figure}
 和全联接的网络相同，除了网络的权重之外，还有偏置。卷积神经网络中偏置的个数一般是卷积核的个数，而且每个卷积核对应的偏置的维度一般是1乘1。计算完卷积之后，在相应结果的每个位置再加上偏置数字便得到了最终输出的数据，其计算过程如图\ref{fig:chapter3_6}所示。对于输入数据，滤波器（维度是3*3）与输入数据（维度是4*4）进行卷积元算后便得到了初步的输出结果（维度是2*2），之后再将这个结果的每一个位置加上该卷积核对应的偏置数值，得到了最终结果（维度是2*2）。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_6.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{卷积运算后的偏置\cite{luyujie_206}}
     \label{fig:chapter3_6}
 \end{figure}
 三位卷积运算与二维卷积运算不同的是，卷积核的维度从2维提高到了3维，除了有长和宽的信息，还有通道数的维度。如图\ref{fig:chapter3_7}所示，以3通道为例，其运算过程与二维相似，现将对应位置的数字相乘，然后将相乘之后的结果相加，便得到了输出结果。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_7.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{加上边界填充的卷积运算\cite{luyujie_206}}
     \label{fig:chapter3_7}
 \end{figure}
 \subsubsection{池化层}
@@ -67,21 +67,21 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_8.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{池化操作流程图\cite{luyujie_214}}
     \label{fig:chapter3_8}
 \end{figure}
 池化层与卷积层不一样的是，池化层没有训练参数，它的输入参数都是运算之前系统已经规定好的。池化层就是一个固定算法的函数。它另外一个特点是，池化操作后通道数是不变的，各通道是相互独立的，如图\ref{fig:chapter3_10}所示。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_9.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{三维数据的池化操作\cite{luyujie_215}}
     \label{fig:chapter3_9}
 \end{figure}
 加入池化层后，神经网络对输入数据发生的一些微小干扰噪声具有很好的鲁棒性。如图\ref{fig:chapter3_10}所示，即使图片发生了微小偏移，经过池化操作后，其特征仍能被准确地识别出来。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_10.png}
-    \caption{卷积神经网络结构示意图}
+    \caption{池化操作对发生偏移的输入具有鲁棒性\cite{luyujie_216}}
     \label{fig:chapter3_10}
 \end{figure}
 \section{卷积神经网络的分层抽象特性}
@@ -91,14 +91,14 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_11.jpeg}
-    \caption{人类视觉处理信息流程示意图}
+    \caption{使用光斑刺激猫的视神经，并记录猫的神经反应\cite{yanjianweishi}}
     \label{fig:chapter3_11}
 \end{figure}
-他们这样的发现对理解人类视觉信息加工过程很有帮助。首先人类的视网膜接收外界传入的信号，经过简单细胞处理后，简单细胞完成了一些初级特征的提取，比如简单的直线或边缘的信息。简单细胞后面有复杂细胞，复杂细胞负责完成更为抽象层次信号的处理，比如由各种方向的直线或边缘组成的形状的信息，比如三角形或正方形等。复杂细胞上面的细胞负责处理更为抽象的信息，经过一系列信息的抽象后，人类大脑就能识别看到的图像是一个什么物体。因此人类视觉信息加工是一个不断将信号进行抽象处理的过程。（图片引自https://zhuanlan.zhihu.com/p/29853731）
+他们这样的发现对理解人类视觉信息加工过程很有帮助。首先人类的视网膜接收外界传入的信号，经过简单细胞处理后，简单细胞完成了一些初级特征的提取，比如简单的直线或边缘的信息。简单细胞后面有复杂细胞，复杂细胞负责完成更为抽象层次信号的处理，比如由各种方向的直线或边缘组成的形状的信息，比如三角形或正方形等。复杂细胞上面的细胞负责处理更为抽象的信息，经过一系列信息的抽象后，人类大脑就能识别看到的图像是一个什么物体。因此人类视觉信息加工是一个不断将信号进行抽象处理的过程。
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_12.png}
-    \caption{人类视觉处理信息流程示意图}
+    \caption{人类视觉信息处理过程中的简单细胞与复杂细胞\cite{yanjianweishi}}
     \label{fig:chapter3_12}
 \end{figure}
 
@@ -107,7 +107,7 @@
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{chapter3_13.png}
-    \caption{人类视觉处理信息流程示意图\cite{luyujie2018}}
+    \caption{卷积神经网络的分层抽象特性示意图\cite{luyujie2018}}
     \label{fig:chapter3_13}
 \end{figure}
 
@@ -120,7 +120,7 @@
 等待模型收敛之后，我们就可以得到消除了遗忘类别高层次抽象信息，同时保留了未被遗忘类别的分类信息。
 \begin{figure}
     \centering
-    \includegraphics[scale=0.5]{chapter3_14.png}
+    \includegraphics[scale=0.35]{chapter3_14.png}
     \caption{遗忘方法流程图}
     \label{fig:chapter3_14}
 \end{figure}
@@ -161,7 +161,7 @@
 \section{遗忘效果的衡量指标} \label{forget_evaluation_index}
 
 了解了一些关于卷积神经网络遗忘的概念之后，我们要在量上了解遗忘到什么程度才能算是比较好的遗忘效果。为此，我们设计了一些用来评价遗忘效果的指标。这些指标可以帮助我们从各个方面了解当前网络模型的训练状态。这些指标有测试遗忘集、测试保留集的准确率，收敛时间和激活距离，下面来分别介绍。
-\subsection{测试遗忘集、测试保留集准确率}
+\subsection{测试准确率}
 
 我们都知道训练神经网络的过程中，我们不仅要利用训练数据去训练网络，为了防止训练的网络出现过拟合情况，也需要用测试集去测试训练网络的泛化成果。我们将测试集根据遗忘需求分为两个部分，仅有遗忘类别测试数据的测试遗忘集和仅有保留类别测试数据的测试保留集。使用测试遗忘集的测试结果可以反映网络对于遗忘类别遗忘程度，这个准确率越低，代表对遗忘类别遗忘越彻底。同理，使用测试保留集的测试结果可以反映网络对于保留类别的保留情况，这个测试结果的准确率越高，代表保留类别的保留效果越明显。
 
